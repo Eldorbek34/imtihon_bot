@@ -1,0 +1,301 @@
+SQLda JOIN operatori ikki yoki undan ortiq jadvalni birlashtirish uchun ishlatiladi.
+ JOINlarning bir necha hili mavjud va har biri ma'lum bir vazifani bajaradi. Quyida turli xil JOIN turlari va ularning misollari keltirilgan:
+1. INNER JOIN
+
+INNER JOIN ikki jadvalni bir-biriga mos keluvchi qatorlar asosida birlashtiradi. Faqat ikkala jadvalda ham mos keluvchi yozuvlar qaytariladi.
+
+Misol:
+
+sql
+
+SELECT employees.name, departments.department_name
+FROM employees
+INNER JOIN departments ON employees.department_id = departments.id;
+
+Bu so'rov employees jadvalidagi department_id qiymati departments jadvalidagi id qiymatiga mos keladigan yozuvlarni qaytaradi.
+2. LEFT JOIN (LEFT OUTER JOIN)
+
+LEFT JOIN birinchi (chap) jadvaldagi barcha yozuvlarni va ikkinchi (o'ng) jadvaldagi mos keluvchi yozuvlarni qaytaradi.
+Agar mos yozuv topilmasa, ikkinchi jadvaldagi maydonlar NULL qiymatiga ega bo'ladi.
+
+Misol:
+
+sql
+
+SELECT employees.name, departments.department_name
+FROM employees
+LEFT JOIN departments ON employees.department_id = departments.id;
+
+Bu so'rov employees jadvalidagi barcha yozuvlarni va ularga mos keladigan departments yozuvlarini qaytaradi.
+Agar mos yozuv topilmasa, department_name NULL bo'ladi.
+3. RIGHT JOIN (RIGHT OUTER JOIN)
+
+RIGHT JOIN ikkinchi (o'ng) jadvaldagi barcha yozuvlarni va birinchi (chap) jadvaldagi mos keluvchi yozuvlarni qaytaradi.
+Agar mos yozuv topilmasa, birinchi jadvaldagi maydonlar NULL qiymatiga ega bo'ladi.
+
+Misol:
+
+sql
+
+SELECT employees.name, departments.department_name
+FROM employees
+RIGHT JOIN departments ON employees.department_id = departments.id;
+
+Bu so'rov departments jadvalidagi barcha yozuvlarni va ularga mos keladigan employees yozuvlarini qaytaradi.
+Agar mos yozuv topilmasa, name NULL bo'ladi.
+4. FULL JOIN (FULL OUTER JOIN)
+
+FULL JOIN ikkala jadvaldagi barcha yozuvlarni qaytaradi.
+Agar mos yozuvlar topilmasa, bo'sh joylar NULL bilan to'ldiriladi.
+
+Misol:
+
+sql
+
+SELECT employees.name, departments.department_name
+FROM employees
+FULL OUTER JOIN departments ON employees.department_id = departments.id;
+
+Bu so'rov employees va departments jadvalidagi barcha yozuvlarni qaytaradi.
+Agar mos yozuv topilmasa, tegishli maydonlar NULL bo'ladi.
+5. CROSS JOIN
+
+CROSS JOIN ikki jadvalning Cartesian mahsulotini yaratadi,
+ ya'ni bir jadvaldagi har bir yozuv ikkinchi jadvaldagi har bir yozuv bilan birlashtiriladi.
+
+Misol:
+
+sql
+
+SELECT employees.name, departments.department_name
+FROM employees
+CROSS JOIN departments;
+
+Bu so'rov employees va departments jadvalidagi har bir yozuvni birlashtiradi,
+ya'ni barcha mumkin bo'lgan kombinatsiyalarni qaytaradi.
+
+
+
+
+2------SAVOLGA JAVOB
+
+
+
+ALTER TABLE bayonoti SQL da mavjud jadvalga o'zgartirishlar kiritish uchun ishlatiladi. Bu bayonot jadvalga ustun qo'shish,
+ ustunni o'zgartirish yoki ustunni o'chirish kabi vazifalarni bajarishi mumkin.
+Ustun qo'shish
+
+Jadvalga yangi ustun qo'shish uchun ADD kalit so'zidan foydalaniladi.
+
+Misol:
+
+'ALTER TABLE students ADD birthdate DATE;
+
+Bu misolda, students jadvaliga birthdate nomli va DATE turidagi yangi ustun qo'shiladi.
+Ustunni o'zgartirish
+
+Mavjud ustunning turini yoki boshqa xususiyatlarini o'zgartirish uchun MODIFY kalit so'zidan foydalaniladi.
+
+Misol:
+
+sql
+
+ALTER TABLE students MODIFY name VARCHAR(100);
+
+Bu misolda, students jadvalidagi name ustunining ma'lumot turi VARCHAR(100) ga o'zgartiriladi.
+Ustunni o'chirish
+
+Mavjud ustunni o'chirish uchun DROP kalit so'zidan foydalaniladi.
+
+Misol:
+
+sql
+
+ALTER TABLE students DROP COLUMN birthdate;
+
+Bu misolda, students jadvalidagi birthdate ustuni o'chiriladi.
+
+Quyida ALTER TABLE bayonotlarining uchta asosiy misoli keltirilgan:
+
+    Ustun qo'shish:
+
+    sql
+
+ALTER TABLE employees ADD salary INT;
+
+Bu employees jadvaliga salary nomli yangi ustun qo'shadi.
+
+Ustunni o'zgartirish:
+
+sql
+
+ALTER TABLE employees MODIFY last_name VARCHAR(255);
+
+Bu employees jadvalidagi last_name ustunining uzunligini VARCHAR(255) ga o'zgartiradi.
+
+Ustunni o'chirish:
+
+sql
+
+    ALTER TABLE employees DROP COLUMN salary;
+
+    Bu employees jadvalidagi salary ustunini o'chiradi.
+
+Umuman olganda, ALTER TABLE bayonoti jadvalning tuzilishini o'zgartirish uchun qulay va kuchli vosita hisoblanadi.
+
+
+
+
+3-SAVOL
+
+
+
+Chet kalitlar (foreign keys) — bu bir jadvaldagi ustunni boshqa jadvaldagi bir ustunga bog'lab turuvchi cheklovlar.
+Bu kalitlar ma'lumotlar bazasida ma'lumotlarning yaxlitligini va birligini ta'minlashda muhim rol o'ynaydi.
+Chet Kalitlar va Ularning Ahamiyati
+
+    Bog'lanishlarni Ta'minlash: Chet kalitlar jadvaldagi ma'lumotlarni bir-biriga bog'laydi. Masalan, mijozlarning buyurtmalarini
+    ularning ID raqami orqali bog'lash mumkin.
+    Ma'lumotlar Yaxlitligini Saqlash: Chet kalitlar yordamida ma'lumotlar bazasidagi ma'lumotlar o'rtasidagi bog'lanishlarning
+    yaxlitligi ta'minlanadi. Bu shuni anglatadiki, bog'langan jadvaldagi yozuvlar mavjud bo'lishi kerak.
+    Ma'lumotlarni Qayta Ishlatish: Ma'lumotlar bir marta kiritilib, keyinchalik boshqa jadvallarda ham ishlatilishi mumkin,
+    bu esa ma'lumotlarning takrorlanishini oldini oladi va saqlash hajmini kamaytiradi.
+
+Misol
+
+Keling, quyidagi ikkita jadvalni ko'rib chiqaylik: customers (mijozlar) va orders (buyurtmalar).
+customers jadvali:
+
+sql
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100)
+);
+
+orders jadvali:
+
+sql
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    order_date DATE,
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+Bu misolda:
+
+    customers jadvalidagi customer_id ustuni birlamchi kalit (primary key) hisoblanadi.
+    orders jadvalidagi customer_id ustuni chet kalit (foreign key) bo'lib, u customers jadvalidagi customer_id ustuniga ishora qiladi.
+
+Amaliyotda
+
+Bu bog'lanish orders jadvalidagi har bir buyurtma aniq bir mijozga tegishli bo'lishini ta'minlaydi. Masalan, agar orders
+jadvalida yangi yozuv qo'shmoqchi bo'lsangiz, quyidagi qoida amal qiladi:
+
+sql
+
+INSERT INTO orders (order_id, order_date, customer_id) VALUES (1, '2024-06-09', 101);
+
+Bu yozuv faqat customers jadvalidagi customer_id ustunida 101 qiymatiga ega mijoz mavjud bo'lsa, qo'shiladi. Aks holda,
+ma'lumotlar bazasi xato xabarini qaytaradi va yozuv qo'shilmaydi.
+Xulosa
+
+Chet kalitlar ma'lumotlar bazasida ma'lumotlar o'rtasidagi bog'lanishlarni va yaxlitlikni ta'minlashda juda muhim rol o'ynaydi.
+Ular yordamida bir jadvaldagi yozuvlarni boshqa jadvaldagi yozuvlar bilan bog'lash mumkin, bu esa ma'lumotlarning to'g'ri va tartibli saqlanishini ta'minlaydi.
+
+
+
+
+4-SAVOL
+
+
+
+Django ilovasida foydalanuvchi so'rov yuborganidan boshlab javob qaytarilguniga qadar bo'lgan butun jarayon quyidagicha amalga oshiriladi:
+1. Foydalanuvchi So'rovi
+
+Foydalanuvchi brauzerda URL manzilini kiritadi yoki tugmani bosadi, shu orqali HTTP so'rovi serverga yuboriladi.
+2. WSGI Serveri
+
+Django WSGI (Web Server Gateway Interface) server yordamida ishlaydi. Apache yoki Nginx kabi serverlar so'rovni oladi va
+uni WSGI serveriga (masalan, Gunicorn yoki uWSGI) uzatadi. WSGI serveri so'rovni Django ilovasiga yetkazadi.
+3. Django Middleware
+
+So'rov kelib tushganidan keyin, u bir qator middleware komponentlari orqali o'tadi. Middleware komponentlari so'rovni
+o'zgartirishi yoki tekshirishi mumkin. Misollar:
+
+    Autentifikatsiya middleware foydalanuvchini aniqlashi mumkin.
+    Xatolarni tutish middleware xatolarni qayd qilishi mumkin.
+
+4. URL Dispatcher (Router)
+
+So'rov middleware komponentlaridan o'tgandan keyin, u URL dispatcherga uzatiladi. URL dispatcher so'rov yo'nalishini
+(URL ni) Django ilovasidagi urls.py faylida belgilangan yo'nalishlar bilan solishtiradi.
+
+Misol:
+
+python
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('home/', views.home, name='home'),
+]
+
+Agar URL mos kelsa, u tegishli view funksiyasiga yoki class-based view ga yo'naltiriladi.
+5. View Funksiya
+
+URL dispatcher so'rovni mos view ga yuboradi. View funksiya yoki class-based view so'rovni qabul qiladi va uni qayta ishlaydi. View:
+
+    Ma'lumotlarni olish yoki saqlash uchun model bilan o'zaro aloqada bo'lishi mumkin.
+    Shablonni ko'rsatish uchun context (kontekst) yaratishi mumkin.
+    To'g'ridan-to'g'ri javob qaytarishi mumkin (masalan, JSON yoki XML formatida).
+
+Misol:
+
+python
+
+from django.shortcuts import render
+
+def home(request):
+    context = {
+        'message': 'Salom, dunyo!'
+    }
+    return render(request, 'home.html', context)
+
+6. Shablon (Template)
+
+Agar view shablonni ishlatadigan bo'lsa, render funksiyasi chaqiriladi. Bu funksiya shablonni context bilan birgalikda
+ishlaydi va natijada HTML javobini hosil qiladi.
+7. Javob Yaratish
+
+View funksiya yoki render natijasida hosil bo'lgan HttpResponse obyekti yaratiladi. Bu obyekt foydalanuvchiga yuboriladigan javobni o'z ichiga oladi.
+
+Misol:
+
+python
+
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Salom, dunyo!")
+
+8. Javobni Yuborish
+
+Javob obyekti yana bir qator middleware komponentlari orqali o'tadi va oxirida WSGI serveri orqali foydalanuvchiga yuboriladi.
+Brauzer bu javobni qabul qiladi va foydalanuvchiga ko'rsatadi.
+Umumiy Oqim
+
+    Foydalanuvchi so'rov yuboradi.
+    WSGI serveri so'rovni oladi.
+    So'rov middleware orqali o'tadi.
+    URL dispatcher so'rovni tegishli view ga yo'naltiradi.
+    View funksiya yoki class-based view so'rovni qayta ishlaydi.
+    Shablon (agar kerak bo'lsa) render qilinadi.
+    Javob obyekti yaratiladi.
+    Javob middleware orqali o'tib, foydalanuvchiga yuboriladi.
+
+Shu jarayon orqali Django ilovasi foydalanuvchi so'rovlariga javob beradi va ma'lumotlarni foydalanuvchiga etkazib beradi.
